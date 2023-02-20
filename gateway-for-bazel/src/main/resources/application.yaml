@@ -1,0 +1,46 @@
+logging:
+  level:
+    org.springframework.web.HttpLogging: TRACE
+    reactor.netty.http.server: DEBUG
+    reactor.netty.http.client: DEBUG
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: httpbin
+          uri: https://httpbin.org
+          predicates:
+            - Method=GET,POST
+            - Path=/httpbin.org/**
+          filters:
+            - RewritePath=/httpbin.org/(?<segment>.*),/$\{segment}
+        - id: mirror_bazel_build
+          uri: https://mirror.bazel.build
+          predicates:
+            - Method=GET,HEAD
+            - Path=/mirror.bazel.build/**
+          filters:
+            - RewritePath=/mirror.bazel.build/(?<segment>.*),/$\{segment}
+        - id: github_com
+          uri: https://github.com
+          predicates:
+            - Method=GET,HEAD
+            - Path=/github.com/**
+          filters:
+            - RewritePath=/github.com/(?<segment>.*),/$\{segment}
+        - id: mirror_bazel_build
+          uri: https://mirror.bazel.build
+          predicates:
+            - Method=GET,HEAD
+            - Path=/mirror.bazel.build/**
+          filters:
+            - RewritePath=/mirror.bazel.build/(?<segment>.*),/$\{segment}
+        - id: raw_githubusercontent_com
+          uri: https://raw.githubusercontent.com
+          predicates:
+            - Method=GET,HEAD
+            - Path=/raw.githubusercontent.com/**
+          filters:
+            - RewritePath=/raw.githubusercontent.com/(?<segment>.*),/$\{segment}
+bazelproxy:
+  rootPath: root

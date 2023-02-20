@@ -1,0 +1,2 @@
+common --experimental_downloader_config=artifactory_downloader.cfg
+common:bzl-local-proxy --experimental_downloader_config=local_downloader.cfg
